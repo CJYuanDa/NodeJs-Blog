@@ -10,6 +10,8 @@ router.get('', async (req, res) => {
             title: "NodeJs Blog",
             description: "Simple Blog created with NodeJs, Express & MongoDB."
         }
+
+        // show 10 datas in a page
         let perPage = 10;
         let page = req.query.page || 1;
 
@@ -37,7 +39,7 @@ router.get('', async (req, res) => {
 // GET/Post:id 
 router.get('/post/:id', async (req, res) => {
     try {
-        let id = req.params.id;
+        let id = req.params.id; // get the id from '/post/:id'
         const data = await Post.findById(id); // or findById({ _id: id })
         const locals = {
             title: data.title
@@ -57,7 +59,7 @@ router.post('/search', async (req, res) => {
         let searchTerm = req.body.searchTerm;
         const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9]/, "");
         const data = await Post.find({
-            $or: [
+            $or: [  // to search title or body
                 { title: { $regex: new RegExp(searchNoSpecialChar, 'i') } },
                 { body: { $regex: new RegExp(searchNoSpecialChar, 'i') } }
             ]
