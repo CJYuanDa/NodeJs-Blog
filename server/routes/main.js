@@ -28,7 +28,8 @@ router.get('', async (req, res) => {
             locals,
             data,
             current: page,
-            nextPage: hasNextPage ? nextPage : null
+            nextPage: hasNextPage ? nextPage : null,
+            currentRoute: '/'
         });
 
     } catch (error) {
@@ -42,9 +43,13 @@ router.get('/post/:id', async (req, res) => {
         let id = req.params.id; // get the id from '/post/:id'
         const data = await Post.findById(id); // or findById({ _id: id })
         const locals = {
-            title: data.title
+            title: data.title,
+            description: 'Simple Blog created with NodeJs, Express & MongoDb.'
         };
-        res.render('post', { locals, data });
+        res.render('post', {
+            locals,
+            data
+        });
     } catch (error) {
         console.log(error)
     }
